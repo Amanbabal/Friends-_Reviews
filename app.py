@@ -3,10 +3,14 @@ import sqlite3
 import psycopg2
 import os
 
-DATABASE_URL = os.environ.get("postgresql://postgres:BishnoiAman@029@localhost:5432/postgres")
-
 def init_db():
-    conn = psycopg2.connect(DATABASE_URL)
+    conn = psycopg2.connect(
+        dbname="postgres",
+        user="postgres",
+        password="BishnoiAman@029",
+        host="localhost",
+        port="5432"
+    )
     cur = conn.cursor()
 
     cur.execute("""
@@ -27,14 +31,16 @@ def home():
         name = request.form["name"]
         review = request.form["review"]
 
-        conn = psycopg2.connect(DATABASE_URL)
-
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password="BishnoiAman@029",
+            host="localhost",
+            port="5432"
+            )
         cur = conn.cursor()
 
-        cur.execute(
-            "INSERT INTO users (name, review) VALUES (%s, %s)",
-            (name, review)
-            )
+        cur.execute("INSERT INTO users VALUES (%s, %s)",(name, review))
         conn.commit()
 
         conn.close()
@@ -43,14 +49,20 @@ def home():
 
 @app.route("/data")
 def data():
-    conn = psycopg2.connect(DATABASE_URL)
+    conn = psycopg2.connect(
+        dbname="postgres",
+        user="postgres",
+        password="BishnoiAman@029",
+        host="localhost",
+        port="5432"
+        )
     cur = conn.cursor()
     cur.execute("SELECT * FROM users")
     rows = cur.fetchall()
     conn.close()
+
     return render_template("data.html", rows=rows)
-    print(name, review)
 
 if __name__ == "__main__":
-    app.run(host="localhost", port=5432)
+    app.run(host="127.0.0.1", port=5000, debug=True)
 
