@@ -3,7 +3,7 @@ import sqlite3
 import psycopg2
 import os
 
-DATABASE_URL = os.environ.get("postgresql://amanbabal:vEzW5PktZbxqGsEClpSMB1vnNRw58e8t@dpg-d7ir9on7f7vs739d1ci0-a/friendsdb_v60c")
+DATABASE_URL = os.environ.get("postgresql://postgres:BishnoiAman@029@localhost:5432/postgres")
 
 def init_db():
     conn = psycopg2.connect(DATABASE_URL)
