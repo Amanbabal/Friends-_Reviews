@@ -5,10 +5,10 @@ import os
 
 def init_db():
     conn = psycopg2.connect(
-        dbname="friends-db",
+        dbname="friendsdb_v60c",
         user="amanbabal",
         password="vEzW5PktZbxqGsEClpSMB1vnNRw58e8t",
-        host="dpg-d7ir9on7f7vs739d1ci0-a",
+        host="dpg-d7ir9on7f7vs739d1ci0-a.oregon-postgres.render.com",
         port="5432"
     )
     cur = conn.cursor()
@@ -32,10 +32,10 @@ def home():
         review = request.form["review"]
 
         conn = psycopg2.connect(
-            dbname="friends-db",
+            dbname="friendsdb_v60c",
             user="amanbabal",
             password="vEzW5PktZbxqGsEClpSMB1vnNRw58e8t",
-            host="dpg-d7ir9on7f7vs739d1ci0-a",
+            host="dpg-d7ir9on7f7vs739d1ci0-a.oregon-postgres.render.com",
             port="5432"
             )
         cur = conn.cursor()
@@ -50,10 +50,10 @@ def home():
 @app.route("/data")
 def data():
     conn = psycopg2.connect(
-        dbname="friends-db",
+        dbname="friendsdb_v60c",
         user="amanbabal",
         password="vEzW5PktZbxqGsEClpSMB1vnNRw58e8t",
-        host="dpg-d7ir9on7f7vs739d1ci0-a",
+        host="dpg-d7ir9on7f7vs739d1ci0-a.oregon-postgres.render.com",
         port="5432"
         )
     cur = conn.cursor()
