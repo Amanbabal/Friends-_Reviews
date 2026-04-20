@@ -1,15 +1,22 @@
 from flask import Flask, render_template, request
 import sqlite3
+import psycopg2
+import os
 
+DATABASE_URL = os.environ.get("postgresql://amanbabal:vEzW5PktZbxqGsEClpSMB1vnNRw58e8t@dpg-d7ir9on7f7vs739d1ci0-a/friendsdb_v60c")
 
 def init_db():
-    conn = sqlite3.connect("data.db")
-    conn.execute("""
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
+
+    cur.execute("""
         CREATE TABLE IF NOT EXISTS users (
             name TEXT,
             review TEXT
         )
     """)
+    conn.commit()
+    conn.close()
 
 app = Flask(__name__)
 init_db()
@@ -20,10 +27,14 @@ def home():
         name = request.form["name"]
         review = request.form["review"]
 
-        conn = sqlite3.connect("data.db")
+        conn = psycopg2.connect(DATABASE_URL)
 
-        conn.execute("Insert into users values (?, ?)", (name, review))
+        cur = conn.cursor()
 
+        cur.execute(
+            "INSERT INTO users (name, review) VALUES (%s, %s)",
+            (name, review)
+            )
         conn.commit()
 
         conn.close()
@@ -32,9 +43,10 @@ def home():
 
 @app.route("/data")
 def data():
-    conn = sqlite3.connect("data.db")
-    cursor = conn.execute("SELECT * FROM users")
-    rows = cursor.fetchall()
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users")
+    rows = cur.fetchall()
     conn.close()
     return render_template("data.html", rows=rows)
     print(name, review)
