@@ -65,5 +65,5 @@ def data():
     print(name, review)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5432)
+    app.run(host="localhost", port=5432)
 
