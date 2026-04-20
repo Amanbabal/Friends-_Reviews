@@ -1,9 +1,18 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, Response
 import sqlite3
 import psycopg2
 import os
 
 DATABASE_URL = os.environ.get("postgresql://amanbabal:vEzW5PktZbxqGsEClpSMB1vnNRw58e8t@dpg-d7ir9on7f7vs739d1ci0-a/friendsdb_v60c")
+
+def check_auth(username, password):
+    return username == "admin" and password == "1234"
+
+def authenticate():
+    return Response(
+        "Login required", 401,
+        {"WWW-Authenticate": 'Basic realm="Login Required"'}
+    )
 
 def init_db():
     conn = psycopg2.connect(DATABASE_URL)
@@ -43,6 +52,10 @@ def home():
 
 @app.route("/data")
 def data():
+    auth = request.authorization
+    if not auth or not check_auth(auth.username, auth.password):
+        return authenticate()
+    
     conn = psycopg2.connect(DATABASE_URL)
     cur = conn.cursor()
     cur.execute("SELECT * FROM users")
