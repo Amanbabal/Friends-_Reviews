@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        h1{
+            margin-left: 510px;
+        }
+        
+        input{
+            margin-left: 350px;
+            width: 500px;
+            border-radius: 30px;
+            height: 230px;
+            padding: 5px;
+            padding-left: 10px;
+        }
+        
+        button{
+            margin-left: 350px;
+            width: 100px;
+            border-radius: 30px;
+            height: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    {% if current_user.username == "Ansh" %}
+        <img src="{{ url_for('static', filename='images/Ansh.jpg') }}" style="width:200px;margin:0px;">
+    {% endif %}
+
+    <h1>Add Your Review</h1>
+    <form method="POST" action="/add_review">
+    <input type="text" name="review" placeholder="write Your Review Here."><br><br>
+    <button type="submit">Add</button>
+
+    <h2>Your Reviews</h2>
+
+    {% for review in reviews %}
+        <p>{{ review.content }}</p>
+    {% endfor %}
+</form>
+</body>
+</html>
